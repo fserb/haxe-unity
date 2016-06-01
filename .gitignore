@@ -1,3 +1,5 @@
 tmp/
 out/
 3rdp/
+test/code/
+test/dll/
