@@ -1,0 +1,12 @@
+{
+  "name": "unity",
+  "license": "MIT",
+  "tags": ["unity"],
+  "description": "haxe-Unity integration",
+  "contributors": ["fserb"],
+  "releasenote": "Initial release",
+  "version": "0.1.0",
+  "url": "https://github.com/fserb/unity",
+    "dependencies": {
+    }
+}
