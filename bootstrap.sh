@@ -9,9 +9,11 @@ if [ ! -d "$TARGET" ]; then
   exit 1
 fi
 
-mkdir -p $TARGET/Assets/src
-cp -f project/Assets/src/build.sh $TARGET/Assets/src/
-chmod +x $TARGET/Assets/src/build.sh
+rsync -r project/ $TARGET/
 
-mkdir -p $TARGET/Assets/Editor
-cp -f project/Assets/Editor/Autorun.cs $TARGET/Assets/Editor/
+# Add haxe/haxelib binary path to build path.
+HP=`dirname $(which haxe)`
+sed -i "" -e "s#%%HAXEPATH%%#${HP}#" $TARGET/Assets/src/build.sh
+sed -i "" -e "s#%%NEKOPATH%%#${NEKOPATH}#" $TARGET/Assets/src/build.sh
+sed -i "" -e "s#%%HAXESTDPATH%%#${HAXE_STD_PATH}#" $TARGET/Assets/src/build.sh
+chmod +x $TARGET/Assets/src/build.sh

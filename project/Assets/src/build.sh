@@ -2,8 +2,11 @@
 
 UNITY="/Applications/Unity/Unity.app/Contents/Frameworks/Managed"
 
-export PATH="$PATH:/usr/local/bin"
-echo `find . -name \*.hx | sed 's|./||'`
+export PATH="$PATH:%%HAXEPATH%%"
+export NEKOPATH="%%NEKOPATH%%"
+export HAXE_STD_PATH="%%HAXESTDPATH%%"
+
+cd ..
 
 haxe \
   -D no-compilation \
@@ -11,5 +14,5 @@ haxe \
   -net-lib "$UNITY/UnityEditor.dll" \
   -lib unity \
   -lib vault \
-  -cs ../Code $@ \
-  `find . -name \*.hx | sed 's|./||'`
+  -cp src \
+  -cs Code "$@"
