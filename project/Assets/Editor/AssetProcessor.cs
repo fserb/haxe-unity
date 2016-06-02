@@ -13,16 +13,26 @@ public class AssetProcessor : AssetPostprocessor {
                                       string[] movedFromAssetPaths) {
     List<string> haxeFiles = new List<String>();
     foreach(var i in importedAssets) {
-      if (i.StartsWith("Assets/src/") && i.EndsWith(".hx")) {
-        string name = i.Substring(11,i.Length-3-11).Replace("/", ".");
-        if (name.Contains(".")) {
-          name = name.Substring(0, 1).ToLower() + name.Substring(1);
-        }
-        haxeFiles.Add(name);
+      string n = ProcessFilename(i);
+      if (n != null) {
+        haxeFiles.Add(n);
       }
     }
 
-    Rebuild(haxeFiles);
+    if (haxeFiles.Count > 0) {
+      Rebuild(haxeFiles);
+    }
+  }
+
+  static string ProcessFilename(string name) {
+    if (name.StartsWith("Assets/src/") && name.EndsWith(".hx")) {
+      string n = name.Substring(11,name.Length-3-11).Replace("/", ".");
+      if (n.Contains(".")) {
+        n = n.Substring(0, 1).ToLower() + n.Substring(1);
+      }
+      return n;
+    }
+    return null;
   }
 
   static void Rebuild(List<string> files) {
@@ -55,6 +65,8 @@ public class AssetProcessor : AssetPostprocessor {
 
     if (proc.ExitCode != 0) {
       UnityEngine.Debug.Log("Build failed with error code: " + proc.ExitCode);
+    } else {
+      UnityEditor.AssetDatabase.Refresh();
     }
   }
 }
