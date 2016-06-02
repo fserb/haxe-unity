@@ -7,31 +7,40 @@ using System.Diagnostics;
 [InitializeOnLoad]
 public class Autorun {
   static Autorun() {
-    UnityEngine.Debug.Log("Here");
-    Process proc = new Process();
-    proc.EnableRaisingEvents = false;
-    proc.StartInfo.FileName = Application.dataPath + "/../src/build.sh";
-    proc.StartInfo.WorkingDirectory = Application.dataPath + "/../src";
-    proc.StartInfo.Arguments = "";
-    proc.StartInfo.UseShellExecute = false;
-    proc.StartInfo.CreateNoWindow = true;
-    proc.StartInfo.RedirectStandardOutput = true;
-    proc.StartInfo.RedirectStandardError = true;
-    proc.OutputDataReceived += new DataReceivedEventHandler(DataReceived);
-    proc.ErrorDataReceived += new DataReceivedEventHandler(ErrorReceived);
-    // proc.Start();
-    // proc.BeginOutputReadLine();
-    // proc.BeginErrorReadLine();
-    // UnityEngine.Debug.Log("Started!");
-    // proc.WaitForExit();
-    UnityEngine.Debug.Log("Done! " + proc.ExitCode);
+    Rebuild();
   }
 
-  static void DataReceived(object sender, DataReceivedEventArgs eventArgs) {
-    UnityEngine.Debug.Log(eventArgs.Data);
-  }
+  static void Rebuild() {
+    UnityEngine.Debug.Log("Autorun");
+    Process proc = new Process {
+      StartInfo = new ProcessStartInfo {
+        FileName = Application.dataPath + "/src/build.sh",
+        WorkingDirectory = Application.dataPath + "/../src",
+        Arguments = "",
+        UseShellExecute = false,
+        RedirectStandardOutput = true,
+        RedirectStandardError = true,
+      }
+    };
 
-  static void ErrorReceived(object sender, DataReceivedEventArgs eventArgs) {
-    UnityEngine.Debug.LogError(eventArgs.Data);
+    proc.OutputDataReceived += (sender, args) => {
+      if (args.Data != null) {
+        UnityEngine.Debug.Log(args.Data);
+      }
+    };
+    proc.ErrorDataReceived += (sender, args) => {
+      if (args.Data != null) {
+        UnityEngine.Debug.LogError(args.Data);
+      }
+    };
+
+    proc.Start();
+    proc.WaitForExit();
+    proc.BeginErrorReadLine();
+    proc.BeginOutputReadLine();
+
+    if (proc.ExitCode != 0) {
+      UnityEngine.Debug.Log("Build failed with error code: " + proc.ExitCode);
+    }
   }
 }

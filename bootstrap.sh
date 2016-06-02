@@ -9,9 +9,9 @@ if [ ! -d "$TARGET" ]; then
   exit 1
 fi
 
-mkdir -p $TARGET/src
-cp -f project/src/build.sh $TARGET/src/
-chmod +x $TARGET/src/build.sh
+mkdir -p $TARGET/Assets/src
+cp -f project/Assets/src/build.sh $TARGET/Assets/src/
+chmod +x $TARGET/Assets/src/build.sh
 
 mkdir -p $TARGET/Assets/Editor
 cp -f project/Assets/Editor/Autorun.cs $TARGET/Assets/Editor/

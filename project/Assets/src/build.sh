@@ -2,7 +2,8 @@
 
 UNITY="/Applications/Unity/Unity.app/Contents/Frameworks/Managed"
 
-echo "working?"
+export PATH="$PATH:/usr/local/bin"
+echo `find . -name \*.hx | sed 's|./||'`
 
 haxe \
   -D no-compilation \
@@ -10,5 +11,5 @@ haxe \
   -net-lib "$UNITY/UnityEditor.dll" \
   -lib unity \
   -lib vault \
-  -cs ../Assets/Code $@ \
+  -cs ../Code $@ \
   `find . -name \*.hx | sed 's|./||'`
