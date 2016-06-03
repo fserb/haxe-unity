@@ -17,11 +17,11 @@ class ComponentMethods {
     return cast c.GetComponent(cs.Lib.toNativeType(type));
   }
 
-  public static inline function getComponentInChildrenOfType<T>(c:Component, type:Class<T>) : T {
+  public static inline function getTypedComponentInChildren<T>(c:Component, type:Class<T>) : T {
     return cast c.GetComponentInChildren(cs.Lib.toNativeType(type));
   }
 
-  public static inline function getComponentsInChildrenOfType<T>(c:Component, type:Class<T>, includeInactive:Bool=false) : NativeArrayIterator<T> {
+  public static inline function getTypedComponentsInChildren<T>(c:Component, type:Class<T>, includeInactive:Bool=false) : NativeArrayIterator<T> {
     return cast new NativeArrayIterator<Component>(c.GetComponentsInChildren(cs.Lib.toNativeType(type), includeInactive));
   }
 
@@ -60,7 +60,7 @@ class GameObjectMethods
   //   return cast new NativeArrayIterator<Component>(g.GetComponents(cs.Lib.toNativeType(type)));
   // }
 
-  public static function getComponentsInChildrenOfType<T>(g:GameObject, type:Class<T>, includeInactive:Bool=false) : NativeArrayIterator<T> {
+  public static function getTypedComponentsInChildren<T>(g:GameObject, type:Class<T>, includeInactive:Bool=false) : NativeArrayIterator<T> {
     return cast new NativeArrayIterator<Component>(g.GetComponentsInChildren(cs.Lib.toNativeType(type), includeInactive));
   }
 
@@ -70,7 +70,7 @@ class GameObjectMethods
   }
 
   public static function getChildGameObject(gameObject:GameObject, name:String):GameObject {
-    for (t in getComponentsInChildrenOfType(gameObject, Transform)) if (t.gameObject.name == name) return t.gameObject;
+    for (t in getTypedComponentsInChildren(gameObject, Transform)) if (t.gameObject.name == name) return t.gameObject;
     return null;
   }
 
