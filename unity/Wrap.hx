@@ -13,7 +13,6 @@ import cs.system.collections.IEnumerable;
 import cs.system.collections.IEnumerator;
 
 class ComponentMethods {
-
   public static inline function getTypedComponent<T>(c:Component, type:Class<T>):T {
     return cast c.GetComponent(cs.Lib.toNativeType(type));
   }
